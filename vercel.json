@@ -1,0 +1,3 @@
+{
+  "rewrites": [{ "source": "/pmis/(.*)", "destination": "/$1" }]
+}
