@@ -58,9 +58,14 @@ export default function AppShell() {
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider collapsible collapsed={collapsed} onCollapse={setCollapsed} theme="dark">
-        <div style={{ height: 64, display: "flex", alignItems: "center", justifyContent: "center", padding: "0 16px" }}>
+        <div style={{ height: 64, display: "flex", alignItems: "center", justifyContent: "center", padding: "0 12px" }}>
           {!collapsed && (
-            <Text strong style={{ color: "#fff", fontSize: 16, letterSpacing: 1 }}>PMIS</Text>
+            <div style={{ lineHeight: 1.2 }}>
+              <Text strong style={{ color: "#fff", fontSize: 16, letterSpacing: 1, display: "block" }}>PMIS</Text>
+              <Text style={{ color: "rgba(255,255,255,0.55)", fontSize: 9, display: "block", marginTop: 1, whiteSpace: "nowrap" }}>
+                Project Management<br />Information System
+              </Text>
+            </div>
           )}
         </div>
         <Menu
