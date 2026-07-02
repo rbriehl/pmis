@@ -1,0 +1,53 @@
+# PMIS internal deployment — app + reverse proxy (+ database, see notes).
+# Copy deploy/.env.example to deploy/.env and fill in values, then from
+# the deploy/ directory run:  docker compose up -d --build
+
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+      args:
+        NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+        NEXT_PUBLIC_BASE_PATH: ${NEXT_PUBLIC_BASE_PATH:-/pmis}
+    restart: unless-stopped
+    expose:
+      - "3000"
+
+  nginx:
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      # - "443:443"          # enable with internal CA certs
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      # - ./certs:/etc/nginx/certs:ro
+    depends_on:
+      - app
+
+  # ---------------------------------------------------------------
+  # DATABASE — two options, see PORTING.md section 4:
+  #
+  # Option A (recommended): self-hosted Supabase. It is its own
+  # Docker Compose stack (Postgres, Auth, REST API, Studio). Your IT
+  # mirrors the images internally and runs it beside this stack; the
+  # app's NEXT_PUBLIC_SUPABASE_URL points at it. App code unchanged.
+  #
+  # Option B: plain Postgres (below) + rewrite the app's data layer
+  # to use Next.js API routes instead of supabase-js. More code work,
+  # fewer moving parts. Uncomment to use:
+  #
+  # db:
+  #   image: postgres:17-alpine
+  #   restart: unless-stopped
+  #   environment:
+  #     POSTGRES_DB: pmis
+  #     POSTGRES_USER: pmis
+  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  #   volumes:
+  #     - pgdata:/var/lib/postgresql/data
+  #
+  # volumes:
+  #   pgdata:
