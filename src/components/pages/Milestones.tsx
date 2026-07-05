@@ -10,6 +10,7 @@ const data = [
   { key: 3, milestone: "Compliance Audit Submission", project: "Compliance 2025", due: "2025-08-01", status: "At Risk" },
   { key: 4, milestone: "Network Infrastructure Cutover", project: "Infra Modernization", due: "2025-09-01", status: "Behind" },
   { key: 5, milestone: "Executive Review Gate", project: "AI Integration", due: "2025-09-15", status: "On Track" },
+  { key: 6, milestone: "Editorial Platform Launch", project: "HDSR", due: "2026-09-01", status: "On Track" },
 ];
 
 const statusColor: Record<string, string> = { Complete: "green", "On Track": "blue", "At Risk": "orange", Behind: "red" };

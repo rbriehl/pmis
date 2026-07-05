@@ -9,6 +9,7 @@ const data = [
   { key: 2, id: "R-002", title: "Resource availability for Q3 deliverables", project: "Digital Transformation", type: "Risk", probability: "Medium", impact: "High", status: "Mitigating", owner: "J. Smith" },
   { key: 3, id: "I-001", title: "Legacy API authentication failure", project: "AI Integration", type: "Issue", probability: "—", impact: "High", status: "Open", owner: "R. Davis" },
   { key: 4, id: "A-001", title: "Security architecture review board approval", project: "Compliance 2025", type: "Action", probability: "—", impact: "Medium", status: "Closed", owner: "M. Chen" },
+  { key: 5, id: "R-003", title: "Peer review pipeline capacity constraints", project: "HDSR", type: "Risk", probability: "Medium", impact: "Medium", status: "Open", owner: "L. Cohen" },
 ];
 
 const impactColor: Record<string, string> = { High: "red", Medium: "orange", Low: "green", "—": "default" };

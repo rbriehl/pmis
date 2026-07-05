@@ -8,6 +8,7 @@ const portfolioHealth = [
   { key: 2, project: "Infrastructure Modernization", budget: "$800K", spent: "$510K", schedule: "At Risk", scope: "Change Pending" },
   { key: 3, project: "Compliance 2025", budget: "$450K", spent: "$390K", schedule: "On Track", scope: "Stable" },
   { key: 4, project: "AI Integration Program", budget: "$2.1M", spent: "$320K", schedule: "Behind", scope: "Expanding" },
+  { key: 5, project: "HDSR (Harvard Data Science Review)", budget: "$350K", spent: "$140K", schedule: "On Track", scope: "Stable" },
 ];
 
 const statusColor: Record<string, string> = { "On Track": "green", "At Risk": "orange", "Behind": "red", "Stable": "blue", "Change Pending": "orange", "Expanding": "purple" };
@@ -26,13 +27,13 @@ export default function Reports() {
       <Title level={4} style={{ marginBottom: 16 }}>Portfolio Health Report</Title>
       <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
         <Col xs={24} sm={8}>
-          <Card><Statistic title="Total Portfolio Budget" value="$4.55M" /></Card>
+          <Card><Statistic title="Total Portfolio Budget" value="$4.9M" /></Card>
         </Col>
         <Col xs={24} sm={8}>
-          <Card><Statistic title="Total Spend to Date" value="$1.9M" suffix="(42%)" /></Card>
+          <Card><Statistic title="Total Spend to Date" value="$2.04M" suffix="(42%)" /></Card>
         </Col>
         <Col xs={24} sm={8}>
-          <Card><Statistic title="Projects On Track" value={2} suffix="/ 4" valueStyle={{ color: "#52c41a" }} /></Card>
+          <Card><Statistic title="Projects On Track" value={3} suffix="/ 5" valueStyle={{ color: "#52c41a" }} /></Card>
         </Col>
       </Row>
       <Card title="Program Status Summary (RAG)">

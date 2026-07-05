@@ -10,6 +10,7 @@ const docs = [
   { title: "Architecture Decision Record #12", project: "AI Integration", updated: "2025-06-10", type: "ADR" },
   { title: "Compliance Gap Assessment", project: "Compliance 2025", updated: "2025-05-28", type: "Report" },
   { title: "Stage Gate 2 Review Package", project: "Infra Modernization", updated: "2025-05-15", type: "Review" },
+  { title: "HDSR Program Charter", project: "HDSR", updated: "2026-06-30", type: "Charter" },
 ];
 
 const typeColor: Record<string, string> = { Charter: "blue", Plan: "green", ADR: "purple", Report: "orange", Review: "cyan" };

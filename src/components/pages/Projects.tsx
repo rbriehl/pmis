@@ -21,6 +21,7 @@ const INITIAL: Project[] = [
   { key: 2, name: "Infrastructure Modernization", pm: "A. Patel", start: "2025-03-01", end: "2025-09-30", status: "At Risk", budget: "$800K" },
   { key: 3, name: "Compliance 2025", pm: "M. Chen", start: "2025-01-01", end: "2025-06-30", status: "On Track", budget: "$450K" },
   { key: 4, name: "AI Integration Program", pm: "R. Davis", start: "2025-04-01", end: "2026-03-31", status: "Behind", budget: "$2.1M" },
+  { key: 5, name: "HDSR (Harvard Data Science Review)", pm: "L. Cohen", start: "2026-01-01", end: "2026-12-31", status: "On Track", budget: "$350K" },
 ];
 
 const statusColor: Record<string, string> = { "On Track": "green", "At Risk": "orange", "Behind": "red" };
