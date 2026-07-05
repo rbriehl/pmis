@@ -1,0 +1,59 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HDSR Study · 02-module2-technology-prototyping</title><style>:root{--bg:#0f1117;--panel:#181b25;--border:#2a2f40;--text:#e8eaf0;--muted:#9aa0b4;--accent:#e8654f;--accent2:#5b8def}
+*{box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.65;max-width:820px;margin:0 auto;padding:32px 24px 64px}
+h1{font-size:24px;border-bottom:2px solid var(--accent);padding-bottom:10px}
+h2{font-size:18px;margin-top:32px;color:var(--accent)}
+h3{font-size:15px;margin-top:20px}
+a{color:var(--accent2);word-break:break-word}
+strong{color:#fff}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:14px 0}
+th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
+th{background:var(--panel)}
+li{margin:6px 0;font-size:14.5px}
+p{font-size:14.5px}
+.topnav{font-size:13px;margin-bottom:20px}
+.topnav a{margin-right:14px;text-decoration:none}</style></head><body>
+<nav class="topnav"><a href="../index.html">← Course Hub</a><a href="glossary.html">Terms</a><a href="00-precourse-prep.html">Prep</a><a href="01-module1-readiness-strategy.html">Module 1</a><a href="02-module2-technology-prototyping.html">Module 2</a><a href="03-module3-governance-implementation.html">Module 3</a><a href="../about.html">About</a></nav>
+<h1 id="module-2-study-guide-technology-prototyping-execution-sep-7-sep-25">Module 2 Study Guide · Technology, Prototyping &amp; Execution · Sep 7 – Sep 25</h1>
+<p>Deliverable: <strong>Working Prototype</strong> of your top-priority use case, built with low-code/no-code tools. Due ~Sep 25.</p>
+<h2 id="topic-1-genai-agentic-fluency-at-executive-depth-week-5">Topic 1 — GenAI &amp; agentic fluency at executive depth (Week 5)</h2>
+<p>You need to reason about architecture without writing code: which pattern fits the use case, where humans stay in the loop, what can fail and how you’d know.</p>
+<p><strong>Study:</strong></p>
+<ul>
+<li>Anthropic, <em>Building Effective AI Agents</em> — the five workflow patterns + when to use a true agent vs. a workflow. Core reading; re-read even if done in prep. <a href="https://www.anthropic.com/research/building-effective-agents" class="uri">https://www.anthropic.com/research/building-effective-agents</a></li>
+<li>Anthropic, <em>Writing Effective Tools for AI Agents</em> — what makes a tool usable by an agent; shapes how you spec integrations. <a href="https://www.anthropic.com/engineering/writing-tools-for-agents" class="uri">https://www.anthropic.com/engineering/writing-tools-for-agents</a></li>
+<li>Vellum, <em>The 2026 Guide to AI Agent Workflows</em> — emerging architectures and design patterns, tool-agnostic. <a href="https://www.vellum.ai/blog/agentic-workflows-emerging-architectures-and-design-patterns" class="uri">https://www.vellum.ai/blog/agentic-workflows-emerging-architectures-and-design-patterns</a></li>
+<li>Automation Anywhere, <em>What are Agentic Workflows?</em> — enterprise operating-model angle the course emphasizes. <a href="https://www.automationanywhere.com/rpa/agentic-workflows" class="uri">https://www.automationanywhere.com/rpa/agentic-workflows</a></li>
+</ul>
+<p><strong>Concepts to master:</strong> orchestration layer (execution order, output passing, failure handling, parallel sync), MCP as the integration standard, human-in-the-loop checkpoints, evaluator/guardrail loops, traceability.</p>
+<p><strong>Exercise:</strong> sketch your use case as boxes-and-arrows — agents, tools, data sources, human checkpoints, failure paths. This sketch IS the architecture section of the prototype writeup.</p>
+<h2 id="topic-2-low-code-tool-selection-week-56">Topic 2 — Low-code tool selection (Week 5–6)</h2>
+<p>Pick based on where the demo must live and what it must touch, not feature counts.</p>
+<p><strong>Study:</strong></p>
+<ul>
+<li>Budibase, <em>11 Low &amp; No-Code AI Agent Builders for 2026</em> — broad survey. <a href="https://budibase.com/blog/ai-agents/no-code-ai-agent-builders/" class="uri">https://budibase.com/blog/ai-agents/no-code-ai-agent-builders/</a></li>
+<li>Bravent, <em>n8n vs Copilot Studio</em> — the key tradeoff: workflow-controlled (you decide when the LLM is called) vs. agent-controlled (model decides). <a href="https://www.bravent.net/en/news/n8n-vs-copilot-studio-which-one-should-i-choose-to-build-generative-ai-agents/" class="uri">https://www.bravent.net/en/news/n8n-vs-copilot-studio-which-one-should-i-choose-to-build-generative-ai-agents/</a></li>
+<li>Botpress, <em>7 Best Low-Code AI Agent Platforms in 2026</em>. <a href="https://botpress.com/blog/low-code-ai-agent-platforms" class="uri">https://botpress.com/blog/low-code-ai-agent-platforms</a></li>
+</ul>
+<p><strong>Decision shortcuts:</strong></p>
+<ul>
+<li>Org lives in Microsoft 365 → Copilot Studio (tenant controls, native connectors, child agents, MCP support)</li>
+<li>Integration-heavy pipeline, self-host/security-first → n8n (1300+ connectors, source-available; now integrates with Microsoft Agent 365 for governance)</li>
+<li>Fast conversational demo → Claude with MCP connectors / Cowork</li>
+</ul>
+<p><strong>Exercise:</strong> 30-minute spike in 2 tools with a trivial version of your use case; pick by which spike felt closer to done.</p>
+<h2 id="topic-3-building-the-prototype-week-67">Topic 3 — Building the prototype (Week 6–7)</h2>
+<p>A prototype that persuades stakeholders shows: real(istic) data in → visible agent reasoning/steps → useful output → a governance hook (audit log, approval gate, or refusal behavior). The governance hook is what separates an executive prototype from a demo toy — and it sets up Module 3.</p>
+<p><strong>Scope discipline:</strong> one workflow, one happy path, one failure path handled gracefully. Resist adding use cases.</p>
+<p><strong>Demo prep checklist:</strong></p>
+<ul>
+<li>90-second narrative: pain → agent does X → outcome → what scaling requires</li>
+<li>Show the failure path on purpose (builds trust)</li>
+<li>Name the governance hooks aloud</li>
+<li>Have the architecture sketch as a backup slide</li>
+</ul>
+<h2 id="consultant-1-on-1-book-by-week-6">Consultant 1-on-1 (book by Week 6)</h2>
+<p>Bring: architecture sketch, tool choice + why, the ugliest problem you hit. Ask: “what would make this credible to a skeptical CIO?”</p>
+<footer style="margin-top:40px;padding-top:16px;border-top:1px solid var(--border);font-size:12px;color:var(--muted)">Personal study tool by Russell Riehl (2026), built with assistance from Claude AI. Unofficial — not affiliated with Harvard University or HDSR. <a href="../about.html">About &amp; attribution</a></footer>
+</body></html>

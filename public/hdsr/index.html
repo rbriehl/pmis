@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HDSR AI Leadership — Course Hub</title>
+<style>
+  :root{
+    --bg:#0f1117; --panel:#181b25; --panel2:#1f2330; --border:#2a2f40;
+    --text:#e8eaf0; --muted:#9aa0b4; --accent:#e8654f; --accent2:#5b8def;
+    --green:#4caf7d; --amber:#e0a93e; --purple:#9b7ed9;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
+  header{padding:24px 28px 0}
+  h1{font-size:22px;font-weight:700}
+  .sub{color:var(--muted);font-size:13px;margin-top:4px}
+  .countdown{display:flex;gap:12px;margin:16px 0 0;flex-wrap:wrap}
+  .cd-box{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:10px 16px;text-align:center;min-width:90px}
+  .cd-box .num{font-size:24px;font-weight:700;color:var(--accent)}
+  .cd-box .lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+  nav{display:flex;gap:4px;padding:16px 28px 0;border-bottom:1px solid var(--border);flex-wrap:wrap}
+  nav button{background:none;border:none;color:var(--muted);font-size:14px;padding:10px 14px;cursor:pointer;border-bottom:2px solid transparent;font-weight:500}
+  nav button.active{color:var(--text);border-bottom-color:var(--accent)}
+  nav button:hover{color:var(--text)}
+  main{padding:24px 28px;max-width:1100px}
+  .tab{display:none}.tab.active{display:block}
+  h2{font-size:17px;margin-bottom:12px}
+  h3{font-size:14px;margin:16px 0 8px}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:14px}
+  .card.now{border-color:var(--accent)}
+  .badge{display:inline-block;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;padding:2px 8px;border-radius:20px;margin-right:8px}
+  .b-prep{background:#3a2f4d;color:var(--purple)} .b-m1{background:#4d2f2a;color:var(--accent)}
+  .b-m2{background:#26364d;color:var(--accent2)} .b-m3{background:#26402f;color:var(--green)}
+  .b-ref{background:#42381f;color:var(--amber)}
+  .wk-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px}
+  .wk-dates{color:var(--muted);font-size:12px}
+  ul.tasks{list-style:none;margin-top:8px}
+  ul.tasks li{display:flex;align-items:flex-start;gap:9px;padding:5px 0;font-size:13.5px}
+  ul.tasks input[type=checkbox]{margin-top:3px;accent-color:var(--accent);width:15px;height:15px;cursor:pointer;flex-shrink:0}
+  ul.tasks li.done label{text-decoration:line-through;color:var(--muted)}
+  ul.tasks label{cursor:pointer}
+  .prog{height:6px;background:var(--panel2);border-radius:3px;margin-top:10px;overflow:hidden}
+  .prog>div{height:100%;background:var(--green);border-radius:3px;transition:width .3s}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:800px){.grid2{grid-template-columns:1fr}}
+  .due{font-size:12px;color:var(--amber);font-weight:600}
+  textarea{width:100%;background:var(--panel2);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:10px;font-family:inherit;font-size:13.5px;resize:vertical;min-height:90px}
+  textarea:focus{outline:none;border-color:var(--accent2)}
+  .note-item{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-top:8px}
+  .note-meta{font-size:11px;color:var(--muted);margin-bottom:4px;display:flex;justify-content:space-between}
+  .note-body{font-size:13.5px;white-space:pre-wrap}
+  select,input[type=text]{background:var(--panel2);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:8px 10px;font-size:13.5px;font-family:inherit}
+  button.btn{background:var(--accent);border:none;color:#fff;font-weight:600;font-size:13px;padding:8px 16px;border-radius:8px;cursor:pointer}
+  button.btn.ghost{background:var(--panel2);color:var(--text);border:1px solid var(--border)}
+  button.del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:11px}
+  button.del:hover{color:var(--accent)}
+  .ctx-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}
+  .ctx-table th,.ctx-table td{padding:8px 10px;border-bottom:1px solid var(--border);text-align:center}
+  .ctx-table th:first-child,.ctx-table td:first-child{text-align:left}
+  .ctx-table input[type=range]{width:100px;accent-color:var(--accent2)}
+  .score{font-size:20px;font-weight:700}
+  .winner{color:var(--green)}
+  .hint{font-size:12.5px;color:var(--muted);margin-top:6px}
+  .search-row{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+  .stat-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+  .stat{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 18px;flex:1;min-width:140px}
+  .stat .v{font-size:20px;font-weight:700}
+  .stat .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+</style>
+</head>
+<body>
+<header>
+  <h1>HDSR AI Leadership Intensive — Course Hub</h1>
+  <div class="sub">Cohort: Aug 10 – Oct 21, 2026 · Harvard Data Science Initiative · 3 modules, 3 deliverables</div>
+  <div class="countdown" id="countdown"></div>
+</header>
+<nav id="nav">
+  <button data-tab="dash" class="active">Dashboard</button>
+  <button data-tab="prep">Prep Plan</button>
+  <button data-tab="sched">Schedule</button>
+  <button data-tab="deliv">Deliverables</button>
+  <button data-tab="notes">Notes</button>
+  <button data-tab="ctx">Context Chooser</button>
+  <button data-tab="study">Study</button>
+  <button data-tab="read">Reading</button>
+</nav>
+<main>
+
+<!-- DASHBOARD -->
+<section class="tab active" id="tab-dash">
+  <div class="stat-row">
+    <div class="stat"><div class="v" id="st-phase">—</div><div class="l">Current phase</div></div>
+    <div class="stat"><div class="v" id="st-prep">0%</div><div class="l">Prep progress</div></div>
+    <div class="stat"><div class="v" id="st-deliv">0%</div><div class="l">Deliverables progress</div></div>
+    <div class="stat"><div class="v" id="st-notes">0</div><div class="l">Notes captured</div></div>
+  </div>
+  <div class="card now" id="focus-card">
+    <h2>This week's focus</h2>
+    <div id="focus-body" class="hint"></div>
+  </div>
+  <div class="card">
+    <h2>Key deadlines</h2>
+    <ul class="tasks" style="font-size:13.5px">
+      <li>📄 <b>AI &amp; Agentic Strategy</b> — end of Module 1 · <span class="due">~Fri Aug 28</span></li>
+      <li>🔧 <b>Working Prototype</b> — end of Module 2 · <span class="due">~Fri Sep 25</span></li>
+      <li>🎤 <b>Exec Presentation + Roadmap</b> — end of Module 3 · <span class="due">~Wed Oct 21</span></li>
+      <li>📘 <b>AI Transformation Playbook</b> (consolidated) · <span class="due">~Wed Oct 21</span></li>
+    </ul>
+  </div>
+  <div class="card">
+    <h2>1-on-1 sessions to schedule</h2>
+    <ul class="tasks" data-list="oneonones"></ul>
+  </div>
+</section>
+
+<!-- PREP PLAN -->
+<section class="tab" id="tab-prep">
+  <h2>Pre-course ramp-up · Jul 6 – Aug 9 (5 weeks)</h2>
+  <p class="hint">Goal: walk into Week 1 with a chosen org context, a draft readiness assessment, and working fluency in agentic concepts — so course weeks go into refining, not starting.</p>
+  <div id="prep-weeks"></div>
+</section>
+
+<!-- SCHEDULE -->
+<section class="tab" id="tab-sched">
+  <h2>Course schedule · week by week</h2>
+  <p class="hint">2 live faculty sessions per week during modules + AI-tutor async work. Reflection weeks include consultant support. Add exact session times once the cohort calendar arrives.</p>
+  <div id="course-weeks"></div>
+</section>
+
+<!-- DELIVERABLES -->
+<section class="tab" id="tab-deliv">
+  <h2>Deliverable workbenches</h2>
+  <div id="deliv-cards"></div>
+</section>
+
+<!-- NOTES -->
+<section class="tab" id="tab-notes">
+  <h2>Session notes &amp; knowledge base</h2>
+  <div class="card">
+    <div class="search-row">
+      <select id="note-cat">
+        <option>Live session</option><option>AMA</option><option>AI tutor</option>
+        <option>1-on-1</option><option>Reading</option><option>Idea</option>
+      </select>
+      <input type="text" id="note-tag" placeholder="Tag (e.g. Module 1, governance)" style="flex:1;min-width:160px">
+    </div>
+    <textarea id="note-text" placeholder="Capture a note… key takeaway, framework, action item, quote."></textarea>
+    <div style="margin-top:8px"><button class="btn" onclick="addNote()">Save note</button></div>
+  </div>
+  <div class="search-row">
+    <input type="text" id="note-search" placeholder="Search notes…" style="flex:1" oninput="renderNotes()">
+  </div>
+  <div id="notes-list"></div>
+</section>
+
+<!-- CONTEXT CHOOSER -->
+<section class="tab" id="tab-ctx">
+  <h2>Org-context decision tool</h2>
+  <p class="hint">Every deliverable (strategy, prototype, playbook) needs one organizational context. Score each candidate 1–5 on each criterion. Weights reflect what the course rewards: you need real stakeholder access for the strategy, low-code feasibility for the prototype, and governance depth for Month 3.</p>
+  <div class="card">
+    <table class="ctx-table" id="ctx-table"></table>
+    <div class="hint" id="ctx-verdict" style="margin-top:12px"></div>
+  </div>
+  <div class="card">
+    <h3>Notes on each option</h3>
+    <p class="hint"><b>Enterprise DevOps platform</b> — strongest prototype story (agentic pipeline automation demos well in low-code tools); day-job data access; exec audience is real.</p>
+    <p class="hint"><b>Avionics / embedded</b> — richest Month-3 material (certification, safety cases, DO-178C-style rigor maps to AI governance); prototype is harder to demo.</p>
+    <p class="hint"><b>Security program</b> — ties to SecAI+/CSSLP; governance-heavy; AI-for-secure-SDLC use cases prototype reasonably well (triage, threat-model assistants).</p>
+    <textarea id="ctx-notes" placeholder="Your reasoning, constraints, gut feel…" onchange="save('ctxNotes',this.value)"></textarea>
+  </div>
+</section>
+
+<!-- STUDY -->
+<section class="tab" id="tab-study">
+  <h2>Study guides</h2>
+  <div class="card"><h3 style="margin-top:0"><a href="study/glossary.html" style="color:var(--accent2)">📖 Terms List / Glossary</a></h3>
+    <p class="hint">Course vocabulary: Vico Effect, wonder/worry/winnow, mindware, agentic patterns, MCP, NIST RMF, EU AI Act, hard vs. soft ROI, and more.</p></div>
+  <div class="card"><h3 style="margin-top:0"><a href="study/00-precourse-prep.html" style="color:var(--accent2)">📘 Pre-Course Prep · Jul 6 – Aug 9</a></h3>
+    <p class="hint">HDSR background reading, agentic AI fundamentals, readiness head-start, regulatory scan. Weekly cadence table.</p></div>
+  <div class="card"><h3 style="margin-top:0"><a href="study/01-module1-readiness-strategy.html" style="color:var(--accent2)">📄 Module 1 · Readiness & Strategy</a></h3>
+    <p class="hint">Readiness assessment, prioritization frameworks &amp; scoring weights, vision statement patterns, strategy assembly checklist.</p></div>
+  <div class="card"><h3 style="margin-top:0"><a href="study/02-module2-technology-prototyping.html" style="color:var(--accent2)">🔧 Module 2 · Technology & Prototyping</a></h3>
+    <p class="hint">Agentic patterns (Anthropic canon), low-code tool selection shortcuts, prototype scope discipline, demo checklist.</p></div>
+  <div class="card"><h3 style="margin-top:0"><a href="study/03-module3-governance-implementation.html" style="color:var(--accent2)">🎤 Module 3 · Governance & Implementation</a></h3>
+    <p class="hint">NIST AI RMF + GenAI profile, EU AI Act current timeline, board oversight questions, ROI metrics, exec presentation storyline.</p></div>
+</section>
+
+<!-- READING CHECKLIST -->
+<section class="tab" id="tab-read">
+  <div class="wk-head"><h2>Reading checklist</h2><span class="wk-dates" id="read-count"></span></div>
+  <p class="hint">Every article across the study guides. Check off as you read; progress saves in this browser.</p>
+  <div id="read-groups"></div>
+</section>
+</main>
+<footer style="padding:20px 28px 32px;border-top:1px solid var(--border);font-size:12px;color:var(--muted);max-width:1100px">
+  Personal study tool by Russell Riehl (2026), built with assistance from Claude AI. Unofficial — not affiliated with or endorsed by Harvard University or HDSR. <a href="about.html" style="color:var(--accent2)">About &amp; attribution</a>
+</footer>
+
+<script>
+// ---------- persistence ----------
+const S = k => { try { return JSON.parse(localStorage.getItem('hdsr_'+k)); } catch(e){ return null; } };
+const save = (k,v) => localStorage.setItem('hdsr_'+k, JSON.stringify(v));
+let checks = S('checks') || {};
+let notes = S('notes') || [];
+let ctxScores = S('ctxScores') || {};
+
+// ---------- data ----------
+const prepWeeks = [
+ {id:'p1', title:'Prep Week 1 · Orient & decide', dates:'Jul 6 – Jul 12', tasks:[
+  'Run the Context Chooser tab and pick the org context for all deliverables',
+  'Gather org source material: org chart, current AI/automation initiatives, pain-point list',
+  'Confirm enrollment logistics: platform access, cohort calendar, time-zone of live sessions',
+  'Block 2 recurring calendar slots/week for live sessions + 3 async work blocks']},
+ {id:'p2', title:'Prep Week 2 · Readiness self-assessment', dates:'Jul 13 – Jul 19', tasks:[
+  'Draft readiness notes: DATA — what exists, quality, access, silos',
+  'Draft readiness notes: TALENT — AI skills in org, gaps, champions',
+  'Draft readiness notes: GOVERNANCE — existing policies, risk appetite, compliance constraints',
+  'Draft readiness notes: OPERATING MODEL — how work flows, where AI could slot in']},
+ {id:'p3', title:'Prep Week 3 · Agentic fluency', dates:'Jul 20 – Jul 26', tasks:[
+  'Primer: agentic AI concepts — tools, orchestration, MCP, multi-agent patterns',
+  'Survey 3 low-code prototyping tools (e.g. Claude/Cowork, n8n, Copilot Studio) — note strengths',
+  'Read 2–3 recent HDSR articles on AI in enterprise for course framing',
+  'Hands-on: build one toy agentic workflow end-to-end']},
+ {id:'p4', title:'Prep Week 4 · Opportunity mapping', dates:'Jul 27 – Aug 2', tasks:[
+  'Brainstorm 10+ AI/agentic use cases in chosen context',
+  'Score each on feasibility × business value × org fit (course framework preview)',
+  'Shortlist top 3 candidates for the Month-2 prototype',
+  'Draft a one-paragraph AI vision statement (value creation, not just efficiency)']},
+ {id:'p5', title:'Prep Week 5 · Governance scan & final prep', dates:'Aug 3 – Aug 9', tasks:[
+  'Skim NIST AI RMF and EU AI Act summaries; note what applies to your context',
+  'List existing org governance hooks a prototype must respect',
+  'Assemble a "day-1 folder": readiness draft, use-case shortlist, vision draft',
+  'Rest and clear the deck — course starts Mon Aug 10']}
+];
+
+const courseWeeks = [
+ {id:'w1', badge:'b-m1', mod:'Module 1', title:'Week 1 · Readiness assessment', dates:'Aug 10 – Aug 14', tasks:[
+  'Attend live sessions ×2 (add times when known)','Complete formal readiness assessment (data/talent/governance/operating model)','Compare against your prep draft — note gaps','Weekly AMA: bring one live challenge']},
+ {id:'w2', badge:'b-m1', mod:'Module 1', title:'Week 2 · Opportunity mapping & vision', dates:'Aug 17 – Aug 21', tasks:[
+  'Attend live sessions ×2','Apply feasibility/value/fit framework to use-case list','Refine AI vision statement with course frameworks','Weekly AMA']},
+ {id:'w3', badge:'b-m1', mod:'Module 1', title:'Week 3 · Strategy assembly', dates:'Aug 24 – Aug 28', tasks:[
+  'Attend live sessions ×2','Assemble AI & Agentic Strategy doc (readiness + portfolio + vision)','Book 1-on-1 strategy deep-dive with enterprise AI consultant','SUBMIT: AI Strategy deliverable']},
+ {id:'w4', badge:'b-ref', mod:'Reflection', title:'Week 4 · Reflection & action sprint', dates:'Aug 31 – Sep 4', tasks:[
+  'Apply strategy feedback from consultant 1-on-1','Socialize draft strategy with 1–2 real stakeholders','Prep for Module 2: confirm prototype use case']},
+ {id:'w5', badge:'b-m2', mod:'Module 2', title:'Week 5 · GenAI & agentic fluency', dates:'Sep 7 – Sep 11', tasks:[
+  'Attend live sessions ×2','Workflow orchestration & operating-model concepts','Map your use case to an agentic architecture sketch','Weekly AMA']},
+ {id:'w6', badge:'b-m2', mod:'Module 2', title:'Week 6 · Build the prototype', dates:'Sep 14 – Sep 18', tasks:[
+  'Attend live sessions ×2','Build v1 in chosen low-code tool','Book 1-on-1 prototyping session with AI consultant','Identify safety/governance hooks in the workflow']},
+ {id:'w7', badge:'b-m2', mod:'Module 2', title:'Week 7 · Refine & demo', dates:'Sep 21 – Sep 25', tasks:[
+  'Attend live sessions ×2','Iterate prototype; connect to realistic data/process','Record or script a stakeholder demo','SUBMIT: Working Prototype deliverable']},
+ {id:'w8', badge:'b-ref', mod:'Reflection', title:'Week 8 · Reflection & action sprint', dates:'Sep 28 – Oct 2', tasks:[
+  'Demo prototype to a real stakeholder; capture reactions','Log lessons for the playbook','Prep Module 3: gather org governance artifacts']},
+ {id:'w9', badge:'b-m3', mod:'Module 3', title:'Week 9 · Governance & ethics', dates:'Oct 5 – Oct 9', tasks:[
+  'Attend live sessions ×2','Draft governance & ethics framework (risk mgmt, accountability, regulatory)','Weekly AMA']},
+ {id:'w10', badge:'b-m3', mod:'Module 3', title:'Week 10 · Metrics, ROI & change', dates:'Oct 12 – Oct 16', tasks:[
+  'Attend live sessions ×2','Define success metrics + ROI tracking + board reporting structure','Draft change plan: reskilling, stakeholder alignment, phased rollout','Book 1-on-1 narrative coaching']},
+ {id:'w11', badge:'b-m3', mod:'Module 3', title:'Week 11 · Executive presentation', dates:'Oct 19 – Oct 21', tasks:[
+  'Finalize board-ready executive presentation + implementation roadmap','Consolidate AI Transformation Playbook (strategy + prototype + governance + plan)','SUBMIT: final deliverables · course ends Wed Oct 21','Claim HDSI certificate; post to LinkedIn']}
+];
+
+const deliverables = [
+ {id:'d1', title:'📄 AI & Agentic Strategy', due:'~Aug 28 (end Module 1)', tasks:[
+  'Readiness assessment complete (data, talent, governance, operating model)',
+  'Opportunity portfolio: 10+ use cases scored on feasibility/value/fit',
+  'Top 3 use cases prioritized & aligned to strategic goals + risk appetite',
+  'AI vision statement — new value creation, not just efficiency',
+  'Reviewed in 1-on-1 with enterprise AI consultant',
+  'Final doc assembled and submitted']},
+ {id:'d2', title:'🔧 Working Prototype', due:'~Sep 25 (end Module 2)', tasks:[
+  'Use case selected from strategy portfolio',
+  'Agentic workflow architecture sketched (agents, tools, orchestration, handoffs)',
+  'Low-code tool chosen and v1 built',
+  'Safety & governance hooks identified in the workflow',
+  'Connected to realistic data / existing process',
+  'Stakeholder demo prepared; refined in consultant 1-on-1',
+  'Prototype submitted']},
+ {id:'d3', title:'🎤 Exec Presentation + Roadmap + Playbook', due:'~Oct 21 (end Module 3)', tasks:[
+  'Governance & ethics framework drafted (risk, regulatory, accountability)',
+  'Success metrics + ROI tracking + reporting structure defined',
+  'Change plan: reskilling, stakeholder alignment, phased implementation',
+  'Board-ready presentation with ROI narrative',
+  'Storyline sharpened in narrative-coaching 1-on-1',
+  'AI Transformation Playbook consolidated (all 3 modules)',
+  'Final submission complete']}
+];
+
+const oneonones = [
+ 'Month 1 · Strategy deep-dive with enterprise AI consultant (book by Week 3)',
+ 'Month 2 · Prototyping session with AI consultant (book by Week 6)',
+ 'Month 3 · Narrative coaching for exec storyline (book by Week 10)'
+];
+
+const ctxCriteria = [
+ {name:'Real data & stakeholder access', w:3, hint:'Strategy needs a real org to assess'},
+ {name:'Low-code prototype feasibility', w:3, hint:'Month 2 demo must be buildable, no code'},
+ {name:'Governance / regulatory richness', w:2, hint:'Month 3 material'},
+ {name:'Career & credential leverage', w:2, hint:'SecAI+/CSSLP, role trajectory'},
+ {name:'Exec audience you can actually present to', w:2, hint:'Playbook lands with real leaders'}
+];
+const ctxOptions = ['DevOps platform','Avionics/embedded','Security program'];
+
+// ---------- rendering ----------
+function taskList(containerId, items, prefix){
+  const ul = typeof containerId==='string' ? document.getElementById(containerId) : containerId;
+  ul.innerHTML = items.map((t,i)=>{
+    const key = prefix+'_'+i, done = !!checks[key];
+    return `<li class="${done?'done':''}"><input type="checkbox" id="${key}" ${done?'checked':''} onchange="toggle('${key}',this)"><label for="${key}">${t}</label></li>`;
+  }).join('');
+}
+function toggle(key, el){
+  checks[key] = el.checked; save('checks', checks);
+  el.parentElement.classList.toggle('done', el.checked);
+  refreshStats(); refreshProgs();
+}
+function weekCard(w, kind){
+  const badge = kind==='prep' ? '<span class="badge b-prep">Prep</span>' : `<span class="badge ${w.badge}">${w.mod}</span>`;
+  return `<div class="card" id="card-${w.id}">
+    <div class="wk-head"><h3 style="margin:0">${badge}${w.title}</h3><span class="wk-dates">${w.dates}</span></div>
+    <ul class="tasks" id="ul-${w.id}"></ul>
+    <div class="prog"><div id="prog-${w.id}"></div></div>
+  </div>`;
+}
+function renderWeeks(){
+  document.getElementById('prep-weeks').innerHTML = prepWeeks.map(w=>weekCard(w,'prep')).join('');
+  document.getElementById('course-weeks').innerHTML = courseWeeks.map(w=>weekCard(w,'course')).join('');
+  prepWeeks.forEach(w=>taskList('ul-'+w.id, w.tasks, w.id));
+  courseWeeks.forEach(w=>taskList('ul-'+w.id, w.tasks, w.id));
+  document.getElementById('deliv-cards').innerHTML = deliverables.map(d=>`
+    <div class="card"><div class="wk-head"><h3 style="margin:0">${d.title}</h3><span class="due">${d.due}</span></div>
+    <ul class="tasks" id="ul-${d.id}"></ul><div class="prog"><div id="prog-${d.id}"></div></div></div>`).join('');
+  deliverables.forEach(d=>taskList('ul-'+d.id, d.tasks, d.id));
+  taskList(document.querySelector('[data-list=oneonones]'), oneonones, 'oo');
+  refreshProgs();
+}
+function pct(prefix, n){ let c=0; for(let i=0;i<n;i++) if(checks[prefix+'_'+i]) c++; return n? Math.round(100*c/n):0; }
+function refreshProgs(){
+  [...prepWeeks, ...courseWeeks, ...deliverables].forEach(w=>{
+    const el=document.getElementById('prog-'+w.id); if(el) el.style.width = pct(w.id, w.tasks.length)+'%';
+  });
+}
+function refreshStats(){
+  const avg = arr => Math.round(arr.reduce((s,w)=>s+pct(w.id,w.tasks.length),0)/arr.length);
+  document.getElementById('st-prep').textContent = avg(prepWeeks)+'%';
+  document.getElementById('st-deliv').textContent = avg(deliverables)+'%';
+  document.getElementById('st-notes').textContent = notes.length;
+}
+
+// ---------- current phase / focus ----------
+function currentPhase(){
+  const now = new Date(); now.setHours(0,0,0,0);
+  const ranges = [
+    ...prepWeeks.map((w,i)=>({w, start:new Date(2026,6,6+7*i), end:new Date(2026,6,12+7*i)})),
+    ...courseWeeks.map((w,i)=>({w, start:new Date(2026,7,10+7*i), end:new Date(2026,7,14+7*i)}))
+  ];
+  for(const r of ranges){ if(now>=r.start && now<=new Date(r.end.getTime()+2*864e5)) return r.w; }
+  if(now < ranges[0].start) return null;
+  return courseWeeks[courseWeeks.length-1];
+}
+function renderFocus(){
+  const w = currentPhase();
+  const phaseEl = document.getElementById('st-phase'), body = document.getElementById('focus-body');
+  if(!w){ phaseEl.textContent='Pre-prep'; body.textContent='Prep plan starts Jul 6.'; return; }
+  phaseEl.textContent = w.mod || 'Prep';
+  body.innerHTML = `<b>${w.title}</b> · ${w.dates}<ul class="tasks" id="ul-focus"></ul>`;
+  taskList('ul-focus', w.tasks, w.id);
+}
+
+// ---------- countdown ----------
+function renderCountdown(){
+  const now = new Date();
+  const targets = [
+    ['Course start', new Date(2026,7,10)], ['Strategy due', new Date(2026,7,28)],
+    ['Prototype due', new Date(2026,8,25)], ['Course end', new Date(2026,9,21)]
+  ];
+  document.getElementById('countdown').innerHTML = targets.map(([l,d])=>{
+    const days = Math.ceil((d-now)/864e5);
+    return `<div class="cd-box"><div class="num">${days<0?'✓':days}</div><div class="lbl">${l}${days<0?'':' · days'}</div></div>`;
+  }).join('');
+}
+
+// ---------- notes ----------
+function addNote(){
+  const text = document.getElementById('note-text').value.trim();
+  if(!text) return;
+  notes.unshift({t:text, cat:document.getElementById('note-cat').value,
+    tag:document.getElementById('note-tag').value.trim(), d:new Date().toLocaleDateString()});
+  save('notes', notes);
+  document.getElementById('note-text').value=''; document.getElementById('note-tag').value='';
+  renderNotes(); refreshStats();
+}
+function delNote(i){ notes.splice(i,1); save('notes',notes); renderNotes(); refreshStats(); }
+function renderNotes(){
+  const q = (document.getElementById('note-search').value||'').toLowerCase();
+  document.getElementById('notes-list').innerHTML = notes
+    .map((n,i)=>({n,i}))
+    .filter(({n})=>!q || (n.t+' '+n.cat+' '+(n.tag||'')).toLowerCase().includes(q))
+    .map(({n,i})=>`<div class="note-item"><div class="note-meta"><span>${n.d} · <b>${n.cat}</b>${n.tag?' · '+n.tag:''}</span><button class="del" onclick="delNote(${i})">delete</button></div><div class="note-body">${n.t.replace(/</g,'&lt;')}</div></div>`)
+    .join('') || '<p class="hint">No notes yet.</p>';
+}
+
+// ---------- context chooser ----------
+function renderCtx(){
+  const tbl = document.getElementById('ctx-table');
+  let html = '<tr><th>Criterion (weight)</th>' + ctxOptions.map(o=>`<th>${o}</th>`).join('') + '</tr>';
+  ctxCriteria.forEach((c,ci)=>{
+    html += `<tr><td>${c.name} <span class="hint">(×${c.w})</span><br><span class="hint">${c.hint}</span></td>`;
+    ctxOptions.forEach((o,oi)=>{
+      const key = ci+'_'+oi, v = ctxScores[key] ?? 3;
+      html += `<td><input type="range" min="1" max="5" value="${v}" oninput="setCtx('${key}',this.value)"><br><span id="ctxv-${key}">${v}</span></td>`;
+    });
+    html += '</tr>';
+  });
+  html += '<tr><td><b>Weighted total</b></td>' + ctxOptions.map((o,oi)=>`<td class="score" id="ctxtotal-${oi}"></td>`).join('') + '</tr>';
+  tbl.innerHTML = html;
+  updateCtxTotals();
+  document.getElementById('ctx-notes').value = S('ctxNotes') || '';
+}
+function setCtx(key,val){ ctxScores[key]=+val; save('ctxScores',ctxScores);
+  document.getElementById('ctxv-'+key).textContent=val; updateCtxTotals(); }
+function updateCtxTotals(){
+  const totals = ctxOptions.map((o,oi)=> ctxCriteria.reduce((s,c,ci)=> s + c.w*(ctxScores[ci+'_'+oi]??3), 0));
+  const max = Math.max(...totals);
+  totals.forEach((t,oi)=>{ const el=document.getElementById('ctxtotal-'+oi);
+    el.textContent=t; el.classList.toggle('winner', t===max); });
+  const best = ctxOptions.filter((o,i)=>totals[i]===max);
+  document.getElementById('ctx-verdict').innerHTML = best.length===1
+    ? `Current leader: <b class="winner">${best[0]}</b> (${max} pts). Adjust sliders as you learn more — decide by end of Prep Week 1.`
+    : `Tie between ${best.join(' and ')} — adjust sliders to break it.`;
+}
+
+// ---------- reading checklist ----------
+const readings = [
+ {group:'Pre-Course · Foundations', badge:'b-prep', items:[
+  {t:'⭐ Meng — Navigating the AI Safari: Wonder, Worry, and Winnow (HDSR 8.1 editorial)', u:'https://hdsr.mitpress.mit.edu/pub/m4mz70zp/release/5'},
+  {t:'HDSR Special Issue 5 — Future Shock: Grappling With the Generative AI Revolution (pick 2+)', u:'https://hdsr.mitpress.mit.edu/specialissue5'},
+  {t:'HDSR Issue 8.1 (Winter 2026) — skim for enterprise/agentic pieces', u:'https://hdsr.mitpress.mit.edu/volume8issue1'},
+  {t:'DAIN Studios — Inside the Harvard Course Where Leaders Learn Agentic AI in Practice', u:'https://dainstudios.com/insights/inside-the-harvard-course-where-leaders-learn-agentic-ai-in-practice/'},
+  {t:'Anthropic — Building Effective AI Agents (core; re-read in Module 2)', u:'https://www.anthropic.com/research/building-effective-agents'},
+  {t:'Anthropic — Effective Context Engineering for AI Agents', u:'https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents'},
+  {t:'IBM — What is AI Agent Orchestration?', u:'https://www.ibm.com/think/topics/ai-agent-orchestration'},
+  {t:'OvalEdge — What Is AI Readiness? (also Module 1)', u:'https://www.ovaledge.com/blog/what-is-ai-readiness'},
+  {t:'Cabinco — AI Readiness Assessment in 2026', u:'https://cabinco.com/ai-readiness-assessment/'},
+  {t:'NIST AI RMF overview — Govern/Map/Measure/Manage (also Module 3)', u:'https://www.nist.gov/itl/ai-risk-management-framework'},
+  {t:'EU AI Act official timeline (also Module 3)', u:'https://ai-act-service-desk.ec.europa.eu/en/ai-act/timeline/timeline-implementation-eu-ai-act'}]},
+ {group:'Module 1 · Readiness & Strategy', badge:'b-m1', items:[
+  {t:'Intuz — AI Readiness Assessment 2026: 5-Dimension Scorecard', u:'https://www.intuz.com/blog/ai-readiness-assessment-guide'},
+  {t:'Skillpanel — AI Readiness Assessment (process/culture dimensions)', u:'https://skillpanel.com/blog/ai-readiness-assessment/'},
+  {t:'Enterprise AI Executive — 12 AI Use Case Prioritization Frameworks', u:'https://enterpriseaiexecutive.ai/p/12-ai-use-case-prioritization-frameworks'},
+  {t:'Agility at Scale — AI Use Case Identification & Prioritization (scoring weights)', u:'https://agility-at-scale.com/ai/strategy/ai-use-case-identification-and-prioritization/'},
+  {t:'Toptal — Use Case Prioritization Framework (yes/no pre-filter)', u:'https://www.toptal.com/product-managers/artificial-intelligence/use-case-prioritization-framework'}]},
+ {group:'Module 2 · Technology & Prototyping', badge:'b-m2', items:[
+  {t:'Anthropic — Writing Effective Tools for AI Agents', u:'https://www.anthropic.com/engineering/writing-tools-for-agents'},
+  {t:'Vellum — The 2026 Guide to AI Agent Workflows', u:'https://www.vellum.ai/blog/agentic-workflows-emerging-architectures-and-design-patterns'},
+  {t:'Automation Anywhere — What are Agentic Workflows?', u:'https://www.automationanywhere.com/rpa/agentic-workflows'},
+  {t:'Budibase — 11 Low & No-Code AI Agent Builders for 2026', u:'https://budibase.com/blog/ai-agents/no-code-ai-agent-builders/'},
+  {t:'Bravent — n8n vs Copilot Studio (workflow- vs agent-controlled)', u:'https://www.bravent.net/en/news/n8n-vs-copilot-studio-which-one-should-i-choose-to-build-generative-ai-agents/'},
+  {t:'Botpress — 7 Best Low-Code AI Agent Platforms in 2026', u:'https://botpress.com/blog/low-code-ai-agent-platforms'}]},
+ {group:'Module 3 · Governance & Implementation', badge:'b-m3', items:[
+  {t:'NIST AI 600-1 — Generative AI Profile (12 risk categories)', u:'https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf'},
+  {t:'Cloud Security Alliance — Agentic AI RMF Profile', u:'https://labs.cloudsecurityalliance.org/agentic/agentic-nist-ai-rmf-profile-v1/'},
+  {t:'Covington — EU AI Act Update: Timeline Relief & Simplification (Digital Omnibus)', u:'https://www.insideglobaltech.com/2026/05/28/eu-ai-act-update-timeline-relief-targeted-simplification-and-new-prohibitions/'},
+  {t:'Nasdaq — 10 Questions Boards Are Asking About AI in 2026', u:'https://www.nasdaq.com/articles/governance/board-ai-oversight'},
+  {t:'ISS-Corporate — AI and Governance: Is 2026 a Tipping Point?', u:'https://www.iss-corporate.com/resources/reports/artificial-intelligence-and-governance-is-2026-a-tipping-point-for-turning-awareness-into-action/'},
+  {t:'Gartner — 5 AI Metrics That Actually Prove ROI to Your Board', u:'https://www.gartner.com/en/articles/ai-value-metrics'},
+  {t:'Agility at Scale — ROI and Success Metrics: A CFO\'s Framework', u:'https://agility-at-scale.com/ai/strategy/roi-and-success-metrics/'},
+  {t:'Forbes — 56% of CEOs See Zero ROI From AI (Jan 2026)', u:'https://www.forbes.com/sites/guneyyildiz/2026/01/28/56-of-ceos-see-zero-roi-from-ai-heres-what-the-12-who-profit-do-differently/'}]}
+];
+function renderReadings(){
+  const wrap = document.getElementById('read-groups');
+  if(!wrap) return;
+  wrap.innerHTML = readings.map((g,gi)=>`
+    <div class="card"><h3 style="margin-top:0"><span class="badge ${g.badge}">${g.items.length}</span>${g.group}</h3>
+    <ul class="tasks">${g.items.map((it,i)=>{
+      const key='rd_'+gi+'_'+i, done=!!checks[key];
+      return `<li class="${done?'done':''}"><input type="checkbox" id="${key}" ${done?'checked':''} onchange="toggleRead('${key}',this)"><label for="${key}">${it.t}</label>&nbsp;<a href="${it.u}" target="_blank" rel="noopener" style="font-size:12px">open ↗</a></li>`;
+    }).join('')}</ul>
+    <div class="prog"><div id="prog-rd${gi}"></div></div></div>`).join('');
+  refreshReadProg();
+}
+function toggleRead(key, el){
+  checks[key]=el.checked; save('checks',checks);
+  el.parentElement.classList.toggle('done', el.checked);
+  refreshReadProg();
+}
+function refreshReadProg(){
+  let total=0, done=0;
+  readings.forEach((g,gi)=>{
+    let gd=0; g.items.forEach((it,i)=>{ total++; if(checks['rd_'+gi+'_'+i]){done++; gd++;} });
+    const el=document.getElementById('prog-rd'+gi); if(el) el.style.width=Math.round(100*gd/g.items.length)+'%';
+  });
+  const c=document.getElementById('read-count'); if(c) c.textContent=done+' / '+total+' read';
+}
+
+// ---------- tabs ----------
+document.getElementById('nav').addEventListener('click', e=>{
+  if(e.target.tagName!=='BUTTON') return;
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  e.target.classList.add('active');
+  document.getElementById('tab-'+e.target.dataset.tab).classList.add('active');
+});
+
+// ---------- init ----------
+renderWeeks(); renderCountdown(); renderFocus(); renderNotes(); renderCtx(); renderReadings(); refreshStats();
+</script>
+</body>
+</html>
