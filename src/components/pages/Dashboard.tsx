@@ -9,6 +9,7 @@ const recentProjects = [
   { key: 2, name: "Infrastructure Modernization", status: "At Risk", health: 54, phase: "Planning" },
   { key: 3, name: "Compliance 2025", status: "On Track", health: 91, phase: "Monitoring" },
   { key: 4, name: "AI Integration Program", status: "Behind", health: 38, phase: "Initiation" },
+  { key: 5, name: "HDSR (Harvard Data Science Review)", status: "On Track", health: 88, phase: "Execution" },
 ];
 
 const statusColor: Record<string, string> = { "On Track": "green", "At Risk": "orange", "Behind": "red" };
@@ -26,10 +27,10 @@ export default function Dashboard() {
       <Title level={4} style={{ marginBottom: 16 }}>Program Overview</Title>
       <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
         <Col xs={24} sm={12} lg={6}>
-          <Card><Statistic title="Active Projects" value={12} prefix={<ProjectOutlined />} valueStyle={{ color: "#1677ff" }} /></Card>
+          <Card><Statistic title="Active Projects" value={13} prefix={<ProjectOutlined />} valueStyle={{ color: "#1677ff" }} /></Card>
         </Col>
         <Col xs={24} sm={12} lg={6}>
-          <Card><Statistic title="Open Risks" value={7} prefix={<WarningOutlined />} valueStyle={{ color: "#faad14" }} /></Card>
+          <Card><Statistic title="Open Risks" value={8} prefix={<WarningOutlined />} valueStyle={{ color: "#faad14" }} /></Card>
         </Col>
         <Col xs={24} sm={12} lg={6}>
           <Card><Statistic title="Milestones This Month" value={4} prefix={<ClockCircleOutlined />} valueStyle={{ color: "#722ed1" }} /></Card>
