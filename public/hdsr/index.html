@@ -84,6 +84,7 @@
   <button data-tab="ctx">Context Chooser</button>
   <button data-tab="study">Study</button>
   <button data-tab="read">Reading</button>
+  <button data-tab="book">Book</button>
 </nav>
 <main>
 
@@ -191,6 +192,49 @@
   <div class="wk-head"><h2>Reading checklist</h2><span class="wk-dates" id="read-count"></span></div>
   <p class="hint">Every article across the study guides. Check off as you read; progress saves in this browser.</p>
   <div id="read-groups"></div>
+</section>
+
+<!-- BOOK PROJECT -->
+<section class="tab" id="tab-book">
+  <div class="wk-head"><h2>Diagnosis: Cure — book project</h2><span class="wk-dates">Capstone · Future Shock at Fifty-Six</span></div>
+  <p class="hint">A data-driven review of Alvin Toffler&rsquo;s 1970 diagnosis, and a prescription for the AI era. Each chapter pairs Toffler&rsquo;s claim with a modern data verdict.</p>
+
+  <div class="card">
+    <h3 style="margin-top:0"><a href="book/read.html" style="color:var(--accent2)">📖 Read the book</a></h3>
+    <p class="hint">Manuscript reader — title page, chapter navigation, and draft text as chapters are written. Always shows the current version.</p>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:0">Document versions</h3>
+    <table class="ctx-table">
+      <tr><th>Version</th><th>Date</th><th>Changes</th><th>Status</th><th>Download</th></tr>
+      <tr><td><strong>v1</strong></td><td>Jul 5, 2026</td>
+        <td style="text-align:left">Initial TOC — title page + 8 entries (Intro, Ch. 1–6 mirroring Future Shock&rsquo;s six parts, Conclusion)</td>
+        <td style="color:var(--muted)">Superseded</td>
+        <td><a href="book/versions/Diagnosis_Cure_TOC_v1.docx" style="color:var(--accent2)">.docx</a></td></tr>
+      <tr><td><strong>v2</strong></td><td>Jul 5, 2026</td>
+        <td style="text-align:left">Added Ch. 7 &ldquo;The Fourth Wave: What Toffler Couldn&rsquo;t See&rdquo; (trilogy + AI era); version stamp on title page</td>
+        <td style="color:var(--muted)">Superseded</td>
+        <td><a href="book/versions/Diagnosis_Cure_TOC_v2.docx" style="color:var(--accent2)">.docx</a></td></tr>
+      <tr><td><strong>v3</strong></td><td>Jul 6, 2026</td>
+        <td style="text-align:left">Full manuscript draft — all 9 chapters (~24k words) written by parallel agents, verdict boxes + verified sources throughout</td>
+        <td style="color:var(--green)">Current</td>
+        <td><a href="book/versions/Diagnosis_Cure_v3.docx" style="color:var(--accent2)">.docx</a></td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:0">Chapter outline (per v2)</h3>
+    <p class="hint">Introduction · The Patient Presents<br>
+    Chapter 1 · The Death of Permanence<br>
+    Chapter 2 · Transience<br>
+    Chapter 3 · Novelty<br>
+    Chapter 4 · Diversity<br>
+    Chapter 5 · The Limits of Adaptability<br>
+    Chapter 6 · Strategies for Survival<br>
+    Chapter 7 · The Fourth Wave: What Toffler Couldn&rsquo;t See<br>
+    Conclusion · A New Prescription</p>
+  </div>
 </section>
 </main>
 <footer style="padding:20px 28px 32px;border-top:1px solid var(--border);font-size:12px;color:var(--muted);max-width:1100px">
