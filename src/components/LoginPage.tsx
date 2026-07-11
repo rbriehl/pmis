@@ -22,12 +22,17 @@ export default function LoginPage() {
           <Text type="secondary">Project Management Information System</Text>
         </div>
         {error && <Alert message="Invalid credentials" type="error" style={{ marginBottom: 16 }} showIcon />}
-        <Form layout="vertical" onFinish={onFinish}>
+        <Form
+          layout="vertical"
+          onFinish={onFinish}
+          autoComplete="off"
+          initialValues={{ email: "admin@e-unify.ai", password: "pmis2025" }}
+        >
           <Form.Item label="Email" name="email" rules={[{ required: true }]}>
-            <Input placeholder="admin@e-unify.ai" />
+            <Input placeholder="admin@e-unify.ai" autoComplete="off" />
           </Form.Item>
           <Form.Item label="Password" name="password" rules={[{ required: true }]}>
-            <Input.Password placeholder="••••••••" />
+            <Input.Password placeholder="••••••••" autoComplete="new-password" />
           </Form.Item>
           <Form.Item style={{ marginBottom: 0 }}>
             <Button type="primary" htmlType="submit" block>Sign In</Button>
