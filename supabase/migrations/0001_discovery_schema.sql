@@ -141,6 +141,11 @@ alter table public.org_units   enable row level security;
 alter table public.initiatives enable row level security;
 alter table public.pain_points enable row level security;
 
+-- instructor_emails: RLS on with NO policies -> unreachable via anon/authenticated
+-- keys, so a student can't read the allowlist or self-promote to instructor. The
+-- signup trigger (security definer) and the SQL editor (service_role) still access it.
+alter table public.instructor_emails enable row level security;
+
 -- profiles: a user sees their own profile; instructors see all.
 drop policy if exists profiles_select on public.profiles;
 create policy profiles_select on public.profiles
