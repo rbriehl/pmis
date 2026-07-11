@@ -4,6 +4,7 @@ import { Layout, Menu, Avatar, Dropdown, Typography, Badge, Space } from "antd";
 import {
   DashboardOutlined,
   ProjectOutlined,
+  ExperimentOutlined,
   WarningOutlined,
   CalendarOutlined,
   FileTextOutlined,
@@ -16,6 +17,7 @@ import {
 import { useAuth } from "@/context/AuthContext";
 import Dashboard from "./pages/Dashboard";
 import Projects from "./pages/Projects";
+import Discovery from "./pages/Discovery";
 import Risks from "./pages/Risks";
 import Milestones from "./pages/Milestones";
 import Documents from "./pages/Documents";
@@ -27,6 +29,7 @@ const { Text } = Typography;
 const NAV_ITEMS = [
   { key: "dashboard", icon: <DashboardOutlined />, label: "Dashboard" },
   { key: "projects", icon: <ProjectOutlined />, label: "Projects" },
+  { key: "discovery", icon: <ExperimentOutlined />, label: "Discovery" },
   { key: "risks", icon: <WarningOutlined />, label: "RAID Log" },
   { key: "milestones", icon: <CalendarOutlined />, label: "Milestones" },
   { key: "documents", icon: <FileTextOutlined />, label: "Documents" },
@@ -37,6 +40,7 @@ const NAV_ITEMS = [
 const PAGE_MAP: Record<string, React.ReactElement> = {
   dashboard: <Dashboard />,
   projects: <Projects />,
+  discovery: <Discovery />,
   risks: <Risks />,
   milestones: <Milestones />,
   documents: <Documents />,
