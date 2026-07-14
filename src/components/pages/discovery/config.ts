@@ -25,7 +25,8 @@ export interface ArtifactConfig {
   key: string;
   label: string;
   itemLabel: string; // singular, e.g. "Org Unit"
-  storageKey: string;
+  storageKey: string; // localStorage key (local backend)
+  table: string; // Supabase table name (supabase backend)
   fields: FieldDef[];
   seed: RowRecord[];
 }
@@ -39,6 +40,7 @@ const orgChart: ArtifactConfig = {
   label: "Org Chart",
   itemLabel: "Org Unit",
   storageKey: "discovery.orgChart.v1",
+  table: "org_units",
   fields: [
     { name: "function", label: "Function / Unit", type: "text", required: true },
     { name: "roleTitle", label: "Role Title", type: "text", required: true },
@@ -75,6 +77,7 @@ const initiatives: ArtifactConfig = {
   label: "AI / Automation Initiatives",
   itemLabel: "Initiative",
   storageKey: "discovery.initiatives.v1",
+  table: "initiatives",
   fields: [
     { name: "name", label: "Initiative Name", type: "text", required: true },
     { name: "owningFunction", label: "Owning Function", type: "text" },
@@ -119,6 +122,7 @@ const painPoints: ArtifactConfig = {
   label: "Pain Points",
   itemLabel: "Pain Point",
   storageKey: "discovery.painPoints.v1",
+  table: "pain_points",
   fields: [
     { name: "description", label: "Description", type: "textarea", required: true, width: 280 },
     { name: "affectedFunction", label: "Affected Function", type: "text" },

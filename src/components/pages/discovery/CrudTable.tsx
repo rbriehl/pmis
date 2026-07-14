@@ -2,11 +2,34 @@
 import { useState } from "react";
 import { Button, Form, Input, InputNumber, Modal, Popconfirm, Select, Space, Switch, Table, Tag, Typography } from "antd";
 import type { TableProps } from "antd";
-import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { useLocalStorage } from "@/lib/useLocalStorage";
+import { DeleteOutlined, DownloadOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
+import { useRecords } from "@/lib/discovery/useRecords";
 import type { ArtifactConfig, FieldDef, RowRecord } from "./config";
 
 const { Text } = Typography;
+
+function toCsv(config: ArtifactConfig, rows: RowRecord[]): string {
+  const cols = [...config.fields.map((f) => ({ key: f.name, label: f.label })), { key: "isSample", label: "Source" }];
+  const esc = (v: unknown) => {
+    const s = v === undefined || v === null ? "" : String(v);
+    return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+  };
+  const header = cols.map((c) => esc(c.label)).join(",");
+  const body = rows
+    .map((r) => cols.map((c) => esc(c.key === "isSample" ? (r.isSample ? "Sample" : "Entered") : r[c.key])).join(","))
+    .join("\n");
+  return `${header}\n${body}`;
+}
+
+function downloadCsv(filename: string, csv: string) {
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
 
 // Returns the antd control as a plain element so it becomes the direct child of
 // Form.Item — Form.Item injects value/onChange onto its direct child, so wrapping
@@ -21,10 +44,11 @@ function renderInput(field: FieldDef) {
 }
 
 export default function CrudTable({ config }: { config: ArtifactConfig }) {
-  const [rows, setRows] = useLocalStorage<RowRecord[]>(config.storageKey, config.seed);
+  const { rows, loading, error, add, update, remove } = useRecords(config);
   const [open, setOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [showSamples, setShowSamples] = useState(true);
+  const [saving, setSaving] = useState(false);
   const [form] = Form.useForm();
 
   const tableFields = config.fields.filter((f) => f.inTable !== false);
@@ -41,20 +65,24 @@ export default function CrudTable({ config }: { config: ArtifactConfig }) {
     setOpen(true);
   }
 
-  function handleFinish(values: Record<string, string | number>) {
-    if (editingId) {
-      setRows((prev) => prev.map((r) => (r.id === editingId ? { ...r, ...values } : r)));
-    } else {
-      const id = typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : `row-${Date.now()}`;
-      setRows((prev) => [...prev, { id, isSample: false, ...values }]);
+  async function handleFinish(values: Record<string, string | number>) {
+    setSaving(true);
+    try {
+      if (editingId) {
+        await update(editingId, values);
+      } else {
+        await add(values);
+      }
+      form.resetFields();
+      setEditingId(null);
+      setOpen(false);
+    } finally {
+      setSaving(false);
     }
-    form.resetFields();
-    setEditingId(null);
-    setOpen(false);
   }
 
   function handleDelete(id: string) {
-    setRows((prev) => prev.filter((r) => r.id !== id));
+    return remove(id);
   }
 
   const columns: TableProps<RowRecord>["columns"] = [
@@ -104,16 +132,32 @@ export default function CrudTable({ config }: { config: ArtifactConfig }) {
             <Text type="secondary" style={{ fontSize: 12 }}>Show samples</Text>
           </Space>
         </Space>
-        <Button type="primary" icon={<PlusOutlined />} onClick={openAdd}>
-          Add {config.itemLabel}
-        </Button>
+        <Space>
+          <Button
+            icon={<DownloadOutlined />}
+            onClick={() => downloadCsv(`${config.table}.csv`, toCsv(config, visibleRows))}
+            disabled={visibleRows.length === 0}
+          >
+            Export CSV
+          </Button>
+          <Button type="primary" icon={<PlusOutlined />} onClick={openAdd}>
+            Add {config.itemLabel}
+          </Button>
+        </Space>
       </Space>
+
+      {error && (
+        <Text type="danger" style={{ display: "block", marginBottom: 8 }}>
+          {error}
+        </Text>
+      )}
 
       <Table<RowRecord>
         dataSource={visibleRows}
         columns={columns}
         rowKey="id"
         size="small"
+        loading={loading}
         scroll={{ x: "max-content" }}
         pagination={{ pageSize: 10, hideOnSinglePage: true }}
       />
@@ -124,6 +168,7 @@ export default function CrudTable({ config }: { config: ArtifactConfig }) {
         onCancel={() => { form.resetFields(); setEditingId(null); setOpen(false); }}
         onOk={() => form.submit()}
         okText={editingId ? "Save Changes" : `Add ${config.itemLabel}`}
+        confirmLoading={saving}
         width={560}
         destroyOnHidden
       >
